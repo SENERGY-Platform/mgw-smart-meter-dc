@@ -1,0 +1,4 @@
+git+https://github.com/y-du/simple-env-var-manager.git@1.0.2
+git+https://github.com/SENERGY-Platform/mgw-dc-lib.git@0.1.0
+paho-mqtt<2
+pyserial<4
