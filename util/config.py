@@ -41,9 +41,10 @@ class Conf:
 
     @simple_env_var.section
     class Discovery:
+        device_id_prefix = None
         base_path = "/dev"
         port_filter = None
-        delay = 30
+        delay = 15
 
     @simple_env_var.section
     class StartDelay:
