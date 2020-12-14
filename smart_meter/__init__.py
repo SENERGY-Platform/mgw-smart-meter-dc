@@ -16,8 +16,10 @@
 
 
 from .device import *
+from .discovery import *
 
 
 __all__ = (
     device.__all__,
+    discovery.__all__,
 )
