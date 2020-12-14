@@ -42,10 +42,3 @@ class Device(mgw_dc.dm.Device):
             Device.__type_map[mfr_id][1]
         )
         self.adapter = adapter
-
-    def __iter__(self):
-        items = (
-            ("name", self.name),
-        )
-        for item in items:
-            yield item
