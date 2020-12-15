@@ -20,6 +20,7 @@ __all__ = ("Device", )
 
 from util import conf
 from .serial_adapter import SerialAdapter
+import typing
 import mgw_dc
 
 
@@ -35,10 +36,10 @@ class Device(mgw_dc.dm.Device):
         "LGZ4ZMF100AC": LGZxZMF100AC
     }
 
-    def __init__(self, id: str, mfr_id: str, adapter: SerialAdapter):
+    def __init__(self, id: str, mfr_id: str):
         super().__init__(
             id,
             Device.__type_map[mfr_id][0].format(id.replace(conf.Discovery.device_id_prefix, "")),
             Device.__type_map[mfr_id][1]
         )
-        self.adapter = adapter
+        self.adapter: typing.Optional[SerialAdapter] = None
