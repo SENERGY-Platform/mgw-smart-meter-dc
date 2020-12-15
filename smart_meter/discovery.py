@@ -36,12 +36,8 @@ logger = get_logger(__name__.split(".", 1)[-1])
 def get_ports() -> list:
     ports = list()
     for port in os.listdir(conf.Discovery.base_path):
-        if os.path.isabs(os.path.join(conf.Discovery.base_path, port)):
-            if conf.Discovery.port_filter:
-                if conf.Discovery.port_filter in port:
-                    ports.append(os.path.join(conf.Discovery.base_path, port))
-            else:
-                ports.append(os.path.join(conf.Discovery.base_path, port))
+        if conf.Discovery.port_filter in port:
+            ports.append(os.path.join(conf.Discovery.base_path, port))
     return ports
 
 
