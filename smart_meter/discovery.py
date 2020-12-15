@@ -60,6 +60,7 @@ class Discovery(threading.Thread):
         super().__init__(name="discovery", daemon=True)
         self.__device_pool: typing.Dict[str, Device] = dict()
         self.__mqtt_client = mqtt_client
+        self.__refresh_flag = False
         self.__lock = threading.Lock()
 
     def __add_devices(self, smart_meters: typing.List[typing.Tuple[str, str, SerialAdapter]]):
