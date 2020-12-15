@@ -74,6 +74,7 @@ class Discovery(threading.Thread):
                 else:
                     device = Device(id=sm_id, mfr_id=mfr_id, adapter=srl_adptr)
                 logger.info("found '{}' on '{}'".format(device.id, device.adapter.source))
+                device.state = mgw_dc.dm.device_state.online
                 self.__mqtt_client.publish(
                     topic=mgw_dc.dm.gen_device_topic(conf.Client.id),
                     payload=json.dumps(mgw_dc.dm.gen_set_device_msg(device)),
