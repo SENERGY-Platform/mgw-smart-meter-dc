@@ -54,7 +54,7 @@ class Conf:
 
     @simple_env_var.section
     class Senergy:
-        dt_landis_gyr_E350 = None
+        dt_LGZxZMF100AC = None
 
 
 conf = Conf()
@@ -63,5 +63,5 @@ conf = Conf()
 if not all((conf.Discovery.port_filter, )):
     exit('Please provide port filter')
 
-if not all((conf.Senergy.dt_landis_gyr_E350, )):
+if not all((conf.Senergy.dt_LGZxZMF100AC,)):
     exit('Please provide SENERGY device types')
