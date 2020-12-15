@@ -94,7 +94,7 @@ class SerialAdapter:
 
     def read(self):
         _, dt = self.__read()
-        return self.__parseDataTelegram(dt)
+        return self.__parse_data_telegram(dt)
 
     def identify(self):
         mfr_id, dt = self.__read()
@@ -106,7 +106,7 @@ class SerialAdapter:
         mfr_id = mfr_id.split(".")
         if type(mfr_id) is list:
             mfr_id = mfr_id[0]
-        dt = self.__parseDataTelegram(dt)
+        dt = self.__parse_data_telegram(dt)
         meter_ids = list()
         for key, val in dt.items():
             if key in ("C.1.0", "C.1.1", "0.0") and not str(val[0]).isspace() and not str(val[0]) in meter_ids:
@@ -114,7 +114,7 @@ class SerialAdapter:
         meter_ids.sort()
         return mfr_id, "".join(meter_ids)
 
-    def __parseDataTelegram(self, data):
+    def __parse_data_telegram(self, data):
         readings = dict()
         readings_list = data.split('\r\n')
         for reading in readings_list:
