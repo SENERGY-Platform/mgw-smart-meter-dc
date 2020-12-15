@@ -87,9 +87,8 @@ class SerialAdapter:
             # read identification telegram
             ident_telegram = self.__serial_con.readall()
             if not ident_telegram:
-                logger.error("missing identification telegram on '{}'".format(self.__serial_con.port))
                 self.__serial_con.close()
-                raise IdentError
+                raise IdentError("missing identification telegram on '{}'".format(self.__serial_con.port))
             logger.debug(ident_telegram)
 
             # write acknowledgement telegram
@@ -102,9 +101,8 @@ class SerialAdapter:
             # read data telegram
             data_telegram = self.__serial_con.readall()
             if not data_telegram or len(data_telegram.decode()) < 20:
-                logger.error("missing or malformed data telegram on '{}'".format(self.__serial_con.port))
                 self.__serial_con.close()
-                raise DataError
+                raise DataError("missing or malformed data telegram on '{}'".format(self.__serial_con.port))
             logger.debug(data_telegram)
 
             # close serial port
@@ -112,8 +110,7 @@ class SerialAdapter:
 
             return ident_telegram.decode(), data_telegram.decode()
         except IOError as ex:
-            logger.error(ex)
-            raise ReadError
+            raise ReadError(ex)
 
     def read(self):
         _, dt = self.__read()
