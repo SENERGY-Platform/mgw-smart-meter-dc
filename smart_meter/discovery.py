@@ -64,6 +64,7 @@ class Discovery(threading.Thread):
         super().__init__(name="discovery", daemon=True)
         self.__device_pool: typing.Dict[str, Device] = dict()
         self.__mqtt_client = mqtt_client
+        self.__lock = threading.Lock()
 
     def __add_devices(self, smart_meters: typing.List[typing.Tuple[str, str, SerialAdapter]]):
         for sm_id, mfr_id, srl_adptr in smart_meters:
@@ -104,6 +105,9 @@ class Discovery(threading.Thread):
     def run(self) -> None:
         logger.info("starting {} ...".format(self.name))
         while True:
+            time.sleep(conf.Discovery.delay)
+            if self.__refresh_flag:
+                self.__refresh_devices()
             try:
                 ports = get_ports()
                 logger.debug("available ports: {}".format(ports))
@@ -115,4 +119,20 @@ class Discovery(threading.Thread):
                 self.__clean_devices()
             except Exception as ex:
                 logger.error("discovery failed - {}".format(ex))
-            time.sleep(conf.Discovery.delay)
+
+    def __refresh_devices(self):
+        with self.__lock:
+            self.__refresh_flag = False
+        for device in self.__device_pool.values():
+            try:
+                self.__mqtt_client.publish(
+                    topic=mgw_dc.dm.gen_device_topic(conf.Client.id),
+                    payload=json.dumps(mgw_dc.dm.gen_set_device_msg(device)),
+                    qos=1
+                )
+            except Exception as ex:
+                logger.error("setting device '{}' failed - {}".format(device.id, ex))
+
+    def schedule_refresh(self):
+        with self.__lock:
+            self.__refresh_flag = True
