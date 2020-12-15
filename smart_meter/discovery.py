@@ -87,6 +87,7 @@ class Discovery(threading.Thread):
     def __clean_devices(self):
         for device in self.__device_pool.values():
             if not device.adapter:
+                logger.info("can't find '{}' on any port".format(device.id))
                 try:
                     self.__mqtt_client.publish(
                         topic=mgw_dc.dm.gen_device_topic(conf.Client.id),
