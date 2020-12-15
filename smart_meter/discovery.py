@@ -65,22 +65,23 @@ class Discovery(threading.Thread):
         self.__device_pool: typing.Dict[str, Device] = dict()
         self.__mqtt_client = mqtt_client
 
-    def __add_devices(self, smart_meters: list):
+    def __add_devices(self, smart_meters: typing.List[typing.Tuple[str, str, SerialAdapter]]):
         for sm_id, mfr_id, srl_adptr in smart_meters:
             try:
                 if sm_id in self.__device_pool:
                     device = self.__device_pool[sm_id]
-                    device.adapter = srl_adptr
                 else:
-                    device = Device(id=sm_id, mfr_id=mfr_id, adapter=srl_adptr)
-                logger.info("found '{}' on '{}'".format(device.id, device.adapter.source))
+                    device = Device(id=sm_id, mfr_id=mfr_id)
+                logger.info("found '{}' on '{}'".format(sm_id, srl_adptr.source))
                 device.state = mgw_dc.dm.device_state.online
                 self.__mqtt_client.publish(
                     topic=mgw_dc.dm.gen_device_topic(conf.Client.id),
                     payload=json.dumps(mgw_dc.dm.gen_set_device_msg(device)),
                     qos=1
                 )
-                self.__device_pool[sm_id] = device
+                device.adapter = srl_adptr
+                if sm_id not in self.__device_pool:
+                    self.__device_pool[sm_id] = device
                 reader = Reader(device=device, mqtt_client=self.__mqtt_client)
                 reader.start()
             except Exception as ex:
@@ -89,7 +90,7 @@ class Discovery(threading.Thread):
     def __clean_devices(self):
         for device in self.__device_pool.values():
             if not device.adapter:
-                logger.info("can't find '{}' on any port".format(device.id))
+                logger.info("removing '{}'".format(device.id))
                 try:
                     self.__mqtt_client.publish(
                         topic=mgw_dc.dm.gen_device_topic(conf.Client.id),
