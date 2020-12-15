@@ -18,12 +18,12 @@
 __all__ = ("SerialAdapter", "ReadError", "IdentError", "DataError")
 
 
-from util import getLogger
+from util import get_logger
 import time
 import serial
 
 
-logger = getLogger(__name__.split(".", 1)[-1])
+logger = get_logger(__name__.split(".", 1)[-1])
 
 
 class ReadError(Exception):

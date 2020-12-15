@@ -14,7 +14,7 @@
    limitations under the License.
 """
 
-__all__ = ("getLogger", "initLogger")
+__all__ = ("get_logger", "initLogger")
 
 
 import logging
@@ -52,5 +52,5 @@ def initLogger(level):
     logger.setLevel(logging_levels[level])
 
 
-def getLogger(name: str) -> logging.Logger:
+def get_logger(name: str) -> logging.Logger:
     return logger.getChild(name)

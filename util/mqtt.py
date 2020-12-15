@@ -17,14 +17,14 @@
 __all__ = ("MQTTClient", )
 
 
-from .logger import getLogger
+from .logger import get_logger
 from .config import conf
 import paho.mqtt.client
 import time
 import mgw_dc
 
 
-logger = getLogger(__name__.split(".", 1)[-1])
+logger = get_logger(__name__.split(".", 1)[-1])
 
 
 class MQTTClient:

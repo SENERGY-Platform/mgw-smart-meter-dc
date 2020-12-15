@@ -18,7 +18,7 @@
 __all__ = ("Discovery", )
 
 
-from util import getLogger, conf, MQTTClient
+from util import get_logger, conf, MQTTClient
 from .serial_adapter import SerialAdapter, ReadError
 from .reader import Reader
 from .device import Device
@@ -30,7 +30,7 @@ import typing
 import mgw_dc
 
 
-logger = getLogger(__name__.split(".", 1)[-1])
+logger = get_logger(__name__.split(".", 1)[-1])
 
 
 def get_ports() -> list:
