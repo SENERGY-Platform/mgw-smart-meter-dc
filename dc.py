@@ -15,7 +15,7 @@
 """
 
 
-from util import initLogger, conf, MQTTClient, handle_sigterm, delay_start
+from util import init_logger, conf, MQTTClient, handle_sigterm, delay_start
 from smart_meter import Discovery
 import signal
 
@@ -25,7 +25,7 @@ if __name__ == '__main__':
     signal.signal(signal.SIGINT, handle_sigterm)
     if conf.StartDelay.enabled:
         delay_start(conf.StartDelay.min, conf.StartDelay.max)
-    initLogger(conf.Logger.level)
+    init_logger(conf.Logger.level)
     try:
         device_pool = dict()
         mqtt_client = MQTTClient()
