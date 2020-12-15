@@ -44,4 +44,7 @@ class Device(mgw_dc.dm.Device):
             Device.__type_map[mfr_id][1]
         )
         self.adapter: typing.Optional[SerialAdapter] = None
-        self.get_measurements: typing.Callable[[dict], typing.Any] = Device.__type_map[mfr_id][2]
+        self.__get_meas: typing.Callable[[dict], typing.Any] = Device.__type_map[mfr_id][2]
+
+    def get_measurements(self) -> typing.Any:
+        return self.__get_meas(self.adapter.read())
