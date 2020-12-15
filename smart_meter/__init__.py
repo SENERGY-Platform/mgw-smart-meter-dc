@@ -17,9 +17,13 @@
 
 from .device import *
 from .discovery import *
+from .reader import *
+from .serial_adapter import *
 
 
 __all__ = (
     device.__all__,
     discovery.__all__,
+    reader.__all__,
+    serial_adapter.__all__
 )
