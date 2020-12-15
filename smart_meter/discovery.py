@@ -84,6 +84,19 @@ class Discovery(threading.Thread):
             except Exception as ex:
                 logger.error("can't add '{}' - {}".format(sm_id, ex))
 
+    def __clean_devices(self):
+        for device in self.__device_pool.values():
+            if not device.adapter:
+                try:
+                    self.__mqtt_client.publish(
+                        topic=mgw_dc.dm.gen_device_topic(conf.Client.id),
+                        payload=json.dumps(mgw_dc.dm.gen_delete_device_msg(device)),
+                        qos=1
+                    )
+                    del self.__device_pool[device.id]
+                except Exception as ex:
+                    logger.error("can't remove '{}' - {}".format(device.id, ex))
+
     def run(self) -> None:
         logger.info("starting {} ...".format(self.name))
         while True:
@@ -94,8 +107,8 @@ class Discovery(threading.Thread):
                 logger.debug("active ports {}".format(active_ports))
                 inactive_ports = list(set(ports) - set(active_ports))
                 logger.debug("inactive ports {}".format(inactive_ports))
-                smart_meters = probe_ports(inactive_ports)
-                self.__add_devices(smart_meters)
+                self.__add_devices(probe_ports(inactive_ports))
+                self.__clean_devices()
             except Exception as ex:
                 logger.error("discovery failed - {}".format(ex))
             time.sleep(conf.Discovery.delay)
