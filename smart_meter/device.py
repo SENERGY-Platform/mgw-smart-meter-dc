@@ -20,11 +20,12 @@ __all__ = ("Device", )
 
 from util import conf
 from .serial_adapter import SerialAdapter
+from . import service
 import typing
 import mgw_dc
 
 
-LGZxZMF100AC = ("Landis+Gyr E350 ({})", conf.Senergy.dt_landis_gyr_E350)
+LGZxZMF100AC = ("Landis+Gyr E350 ({})", conf.Senergy.dt_LGZxZMF100AC, service.get_meas_lgzxzmf100ac)
 
 
 class Device(mgw_dc.dm.Device):
@@ -43,3 +44,4 @@ class Device(mgw_dc.dm.Device):
             Device.__type_map[mfr_id][1]
         )
         self.adapter: typing.Optional[SerialAdapter] = None
+        self.get_measurements: typing.Callable[[dict], typing.Any] = Device.__type_map[mfr_id][2]
