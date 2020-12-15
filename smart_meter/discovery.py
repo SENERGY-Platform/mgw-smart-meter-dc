@@ -68,10 +68,10 @@ class Discovery(threading.Thread):
     def __add_devices(self, smart_meters: list):
         for sm_id, mfr_id, srl_adptr in smart_meters:
             try:
-                try:
-                    device = self.__device_pool.get(sm_id)
+                if sm_id in self.__device_pool:
+                    device = self.__device_pool[sm_id]
                     device.adapter = srl_adptr
-                except KeyError:
+                else:
                     device = Device(id=sm_id, mfr_id=mfr_id, adapter=srl_adptr)
                 self.__mqtt_client.publish(
                     topic=mgw_dc.dm.gen_device_topic(conf.Client.id),
