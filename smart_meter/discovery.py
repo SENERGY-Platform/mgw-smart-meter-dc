@@ -100,8 +100,8 @@ class Discovery(threading.Thread):
                     logger.error("can't remove '{}' - {}".format(device.id, ex))
 
     def run(self) -> None:
-        while not self.__mqtt_client.connected():
-            time.sleep(2)
+        if not self.__mqtt_client.connected():
+            time.sleep(3)
         logger.info("starting {} ...".format(self.name))
         while True:
             if self.__refresh_flag:
