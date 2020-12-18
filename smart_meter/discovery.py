@@ -100,9 +100,10 @@ class Discovery(threading.Thread):
                     logger.error("can't remove '{}' - {}".format(device.id, ex))
 
     def run(self) -> None:
+        while not self.__mqtt_client.connected():
+            time.sleep(2)
         logger.info("starting {} ...".format(self.name))
         while True:
-            time.sleep(conf.Discovery.delay)
             if self.__refresh_flag:
                 self.__refresh_devices()
             try:
@@ -116,6 +117,7 @@ class Discovery(threading.Thread):
                 self.__clean_devices()
             except Exception as ex:
                 logger.error("discovery failed - {}".format(ex))
+            time.sleep(conf.Discovery.delay)
 
     def __refresh_devices(self):
         with self.__lock:
