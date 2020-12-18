@@ -39,6 +39,7 @@ class MQTTClient:
         self.__client.will_set(topic=mgw_dc.dm.gen_last_will_topic(conf.Client.id), payload="1", qos=2)
         if conf.Logger.enable_mqtt:
             self.__client.enable_logger(logger)
+        self.connected = self.__client.is_connected
         self.on_connect = None
         self.on_message = None
 
