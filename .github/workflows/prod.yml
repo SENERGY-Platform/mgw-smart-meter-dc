@@ -40,4 +40,4 @@ jobs:
           push: true
           tags: |
             smartenergyplatform/smart-meter-dc:prod
-            ghcr.io/senergy-platform/smart-meter-dc::${{ github.ref_name }}
+            ghcr.io/senergy-platform/smart-meter-dc:${{ github.ref_name }}
