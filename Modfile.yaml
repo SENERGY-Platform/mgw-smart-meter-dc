@@ -1,0 +1,103 @@
+modfileVersion: "v1"
+id: github.com/SENERGY-Platform/mgw-smart-meter-dc
+name: Smart Meter Device Connector
+description: 
+version: v1.0.0
+type: add-on
+deploymentType: single
+services:
+  connector:
+    name: Connector
+    image: ghcr.io/senergy-platform/smart-meter-dc:prod
+  
+dependencies:
+  github.com/SENERGY-Platform/mgw-mqtt-broker:
+    version: <v2.0.0
+    requiredServices:
+      broker:
+        - refVar: CONF_MSGBROKER_HOST
+          services:
+            - connector
+
+configs:
+  brokerPort:
+    dataType: int
+    value: 1883
+    targets:
+      - refVar: CONF_MSGBROKER_PORT=1883
+        services:
+          - connector
+    userInput:
+      type: number
+      name: Port of the MQTT broker
+
+  logger:
+    dataType: string
+    value: "info"
+    options:
+      - "warning"
+      - "info"
+      - "error"
+      - "debug"
+    targets:
+      - refVar: CONF_LOGGER_LEVEL=info
+        services:
+          - connector
+    userInput:
+      type: text
+      name: Logger Level
+
+  startDelayEnabled:
+    dataType: string
+    value: "True"
+    options:
+      - "True"
+      - "False"
+    targets:
+      - refVar: CONF_STARTDELAY_ENABLED
+        services:
+          - connector
+    userInput:
+      type: text
+      name: Timeout between retries to start operator
+
+  discoveryDevicePrefix:
+    dataType: string
+    targets:
+      - refVar: CONF_DISCOVERY_DEVICE_ID_PREFIX
+        services:
+          - connector
+    userInput:
+      type: text
+      name: Device Prefix
+
+  discoveryPortFilter:
+    dataType: string
+    targets:
+      - refVar: CONF_DISCOVERY_PORT_FILTER
+        services:
+          - connector
+    userInput:
+      type: text
+      name: Discovery Port Filter
+
+  deviceType:
+    dataType: string
+    targets:
+      - refVar: CONF_SENERGY_DT_LGZXZMF100AC
+        services:
+          - connector
+    userInput:
+      type: text
+      name: Device Type
+
+  discoveryBasePath:
+    dataType: string
+    value: /dev/serial/by-id
+    targets:
+      - refVar: CONF_DISCOVERY_BASE_PATH
+        services:
+          - connector
+    userInput:
+      type: text
+      name: Device Type
