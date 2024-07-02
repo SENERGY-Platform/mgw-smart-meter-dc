@@ -2,7 +2,7 @@ modfileVersion: "v1"
 id: github.com/SENERGY-Platform/mgw-smart-meter-dc
 name: Smart Meter Device Connector
 description: 
-version: v1.0.2
+version: v1.0.3
 type: add-on
 deploymentType: single
 services:
@@ -18,6 +18,15 @@ dependencies:
         - refVar: CONF_MSGBROKER_HOST
           services:
             - connector
+
+host_resources:
+  serial:
+    userInput:
+      name: Serial
+    targets:
+      - mountPoint: "/dev/serial/by-id"
+        services:
+          - connector
 
 configs:
   brokerPort:
