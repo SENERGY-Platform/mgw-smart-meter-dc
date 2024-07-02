@@ -2,7 +2,7 @@ modfileVersion: "v1"
 id: github.com/SENERGY-Platform/mgw-smart-meter-dc
 name: Smart Meter Device Connector
 description: 
-version: v1.0.4
+version: v1.0.5
 type: add-on
 deploymentType: single
 services:
@@ -24,7 +24,7 @@ hostResources:
     userInput:
       name: Serial
     targets:
-      - mountPoint: "/dev/serial/by-id"
+      - mountPoint: "/dev/reader"
         services:
           - connector
 
@@ -102,7 +102,7 @@ configs:
 
   discoveryBasePath:
     dataType: string
-    value: /dev/serial/by-id
+    value: /dev/reader
     targets:
       - refVar: CONF_DISCOVERY_BASE_PATH
         services:
