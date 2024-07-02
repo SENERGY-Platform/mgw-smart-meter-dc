@@ -115,7 +115,7 @@ class Discovery(threading.Thread):
                 #logger.debug("active ports {}".format(active_ports))
                 #inactive_ports = list(set(ports) - set(active_ports))
                 #logger.debug("inactive ports {}".format(inactive_ports))
-                self.__add_devices(probe_ports(conf.Discovery.full_path))
+                self.__add_devices(probe_ports([conf.Discovery.full_path]))
                 self.__clean_devices()
             except Exception as ex:
                 logger.error("discovery failed - {}".format(ex))
