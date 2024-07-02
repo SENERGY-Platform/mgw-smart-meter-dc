@@ -2,13 +2,13 @@ modfileVersion: "v1"
 id: github.com/SENERGY-Platform/mgw-smart-meter-dc
 name: Smart Meter Device Connector
 description: 
-version: v1.0.7
+version: v1.0.8
 type: add-on
 deploymentType: single
 services:
   connector:
     name: Connector
-    image: ghcr.io/senergy-platform/smart-meter-dc:prod
+    image: ghcr.io/senergy-platform/smart-meter-dc:v1.0.8
   
 dependencies:
   github.com/SENERGY-Platform/mgw-mqtt-broker:

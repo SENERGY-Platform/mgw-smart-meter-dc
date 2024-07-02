@@ -45,12 +45,14 @@ def probe_ports(ports: list) -> list:
     smart_meters = list()
     for port in ports:
         try:
+            logger.debug(f"try readiing from device {port}")
             srl_adptr = SerialAdapter(port)
             mfr_id, sm_id = srl_adptr.identify()
             if mfr_id and sm_id:
                 logger.info("found smart meter '{}' with id '{}' on '{}'".format(mfr_id, sm_id, port))
                 smart_meters.append(("{}{}".format(conf.Discovery.device_id_prefix, sm_id), mfr_id, srl_adptr))
-        except ReadError:
+        except ReadError as e:
+            logger.error("cant read from serial '{}'".format(e))
             pass
     return smart_meters
 

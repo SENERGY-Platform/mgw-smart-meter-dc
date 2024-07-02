@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - master
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+      - 'v[0-9]+.[0-9]+.[0-9]-alpha[0-9]+'
+      - 'v[0-9]+.[0-9]+.[0-9]-beta[0-9]+'
   workflow_dispatch:
 
 jobs:
@@ -36,4 +40,4 @@ jobs:
           push: true
           tags: |
             smartenergyplatform/smart-meter-dc:prod
-            ghcr.io/senergy-platform/smart-meter-dc:prod
+            ghcr.io/senergy-platform/smart-meter-dc::${{ github.ref_name }}
