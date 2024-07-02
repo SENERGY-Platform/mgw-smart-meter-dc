@@ -61,8 +61,8 @@ class Conf:
 conf = Conf()
 
 
-if not all((conf.Discovery.port_filter, )):
-    exit('Please provide port filter')
+#if not all((conf.Discovery.port_filter, )):
+#    exit('Please provide port filter')
 
 if not all((conf.Senergy.dt_LGZxZMF100AC,)):
     exit('Please provide SENERGY device types')
