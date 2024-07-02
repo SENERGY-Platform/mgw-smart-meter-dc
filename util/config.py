@@ -44,6 +44,7 @@ class Conf:
         device_id_prefix = None
         base_path = "/dev"
         port_filter = None
+        full_path = None
         delay = 15
 
     @simple_env_var.section

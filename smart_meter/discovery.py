@@ -107,13 +107,13 @@ class Discovery(threading.Thread):
             if self.__refresh_flag:
                 self.__refresh_devices()
             try:
-                ports = get_ports()
-                logger.debug("available ports: {}".format(ports))
-                active_ports = [device.adapter.source for device in self.__device_pool.values() if device.adapter and type(device.adapter) is SerialAdapter]
-                logger.debug("active ports {}".format(active_ports))
-                inactive_ports = list(set(ports) - set(active_ports))
-                logger.debug("inactive ports {}".format(inactive_ports))
-                self.__add_devices(probe_ports(inactive_ports))
+                #ports = get_ports()
+                #logger.debug("available ports: {}".format(ports))
+                #active_ports = [device.adapter.source for device in self.__device_pool.values() if device.adapter and type(device.adapter) is SerialAdapter]
+                #logger.debug("active ports {}".format(active_ports))
+                #inactive_ports = list(set(ports) - set(active_ports))
+                #logger.debug("inactive ports {}".format(inactive_ports))
+                self.__add_devices(probe_ports(conf.Discovery.full_path))
                 self.__clean_devices()
             except Exception as ex:
                 logger.error("discovery failed - {}".format(ex))

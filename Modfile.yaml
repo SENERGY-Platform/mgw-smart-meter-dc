@@ -2,7 +2,7 @@ modfileVersion: "v1"
 id: github.com/SENERGY-Platform/mgw-smart-meter-dc
 name: Smart Meter Device Connector
 description: 
-version: v1.0.5
+version: v1.0.6
 type: add-on
 deploymentType: single
 services:
@@ -80,16 +80,6 @@ configs:
       type: text
       name: Device Prefix
 
-  discoveryPortFilter:
-    dataType: string
-    targets:
-      - refVar: CONF_DISCOVERY_PORT_FILTER
-        services:
-          - connector
-    userInput:
-      type: text
-      name: Discovery Port Filter
-
   deviceType:
     dataType: string
     targets:
@@ -104,7 +94,7 @@ configs:
     dataType: string
     value: /dev/reader
     targets:
-      - refVar: CONF_DISCOVERY_BASE_PATH
+      - refVar: CONF_DISCOVERY_FULL_PATH
         services:
           - connector
     userInput:
