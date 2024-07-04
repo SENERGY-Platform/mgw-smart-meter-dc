@@ -45,7 +45,7 @@ def probe_ports(ports: list) -> list:
     smart_meters = list()
     for port in ports:
         try:
-            logger.debug(f"try readiing from device {port}")
+            logger.debug(f"try reading from device {port}")
             srl_adptr = SerialAdapter(port)
             mfr_id, sm_id = srl_adptr.identify()
             if mfr_id and sm_id:
@@ -109,13 +109,16 @@ class Discovery(threading.Thread):
             if self.__refresh_flag:
                 self.__refresh_devices()
             try:
-                #ports = get_ports()
-                #logger.debug("available ports: {}".format(ports))
-                #active_ports = [device.adapter.source for device in self.__device_pool.values() if device.adapter and type(device.adapter) is SerialAdapter]
-                #logger.debug("active ports {}".format(active_ports))
-                #inactive_ports = list(set(ports) - set(active_ports))
-                #logger.debug("inactive ports {}".format(inactive_ports))
-                self.__add_devices(probe_ports([conf.Discovery.full_path]))
+                if conf.Discovery.full_path is not None:
+                    self.__add_devices(probe_ports([conf.Discovery.full_path]))
+                else:
+                    ports = get_ports()
+                    logger.debug("available ports: {}".format(ports))
+                    active_ports = [device.adapter.source for device in self.__device_pool.values() if device.adapter and type(device.adapter) is SerialAdapter]
+                    logger.debug("active ports {}".format(active_ports))
+                    inactive_ports = list(set(ports) - set(active_ports))
+                    logger.debug("inactive ports {}".format(inactive_ports))
+                    self.__add_devices(probe_ports(inactive_ports))
                 self.__clean_devices()
             except Exception as ex:
                 logger.error("discovery failed - {}".format(ex))

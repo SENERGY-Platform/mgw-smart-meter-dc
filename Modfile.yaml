@@ -2,7 +2,7 @@ modfileVersion: "v1"
 id: github.com/SENERGY-Platform/mgw-smart-meter-dc
 name: Smart Meter Device Connector
 description: 
-version: v1.0.10
+version: v1.0.11
 type: add-on
 deploymentType: single
 services:
